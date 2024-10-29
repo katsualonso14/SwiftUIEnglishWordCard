@@ -9,8 +9,7 @@ struct CreateCardView: View {
     var body: some View {
         List {
             TextField("Name", text: $item.title)
-            DatePicker("Chose a date",
-                       selection: $item.timeStamp)
+            TextField("Contents", text: $item.contents)
             Button("Create") {
                 withAnimation {
                     context.insert(item)

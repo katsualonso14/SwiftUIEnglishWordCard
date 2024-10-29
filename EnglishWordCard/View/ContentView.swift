@@ -7,7 +7,7 @@ struct ContentView: View {
     @Environment(\.modelContext) var context // コンテキスト
     
     @State private var showCreate = false
-    @State private var toDoEdit: CardItem?
+    @State private var cardItemEdit: CardItem?
     @Query private var items: [CardItem]
     
 //    init() {
@@ -26,7 +26,10 @@ struct ContentView: View {
                                 .font(.largeTitle)
                                 .bold()
                             
-                            Text("\(item.timeStamp)").font(.callout)
+                            Text(item.contents)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
 
                             Spacer()
                             Button {
@@ -42,6 +45,10 @@ struct ContentView: View {
                                     .font(.largeTitle)
                             }.buttonStyle(.plain)
                         }
+                    
+                    .contentShape(Rectangle()) // 外側に適用
+                    .onTapGesture {
+                        print("Tapped")
                     }
                     // Delete Action
                     .swipeActions{
@@ -57,8 +64,8 @@ struct ContentView: View {
                         }
                         Button {
                             // itemの更新
-                            toDoEdit = item
-                            try? context.save() // 削除後にデータを保存
+                            cardItemEdit = item
+                            try? context.save() // 更新後にデータを保存
                         }
                                label: {
                             Label("Edit", systemImage: "pencil")
@@ -87,12 +94,13 @@ struct ContentView: View {
                     }
                     .presentationDetents([.medium]) // 小さめで
                 })
-                .sheet(item: $toDoEdit) {
-                    toDoEdit = nil
+                .sheet(item: $cardItemEdit) {
+                    cardItemEdit = nil
                 } content: {
                     item in
                     UpdateCardView(item: item)
                 }
+            
         }
         
         

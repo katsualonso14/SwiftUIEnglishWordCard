@@ -5,16 +5,18 @@ import SwiftData
 @Model
 final class CardItem {
     var title: String
-    var timeStamp: Date
+    var contents: String
+    var isDetail: Bool = false
     var isCompleted: Bool
     
     init(
         title: String = "",
-        timeStamp: Date = .now,
-        isCretical: Bool = false,
+        contents: String = "",
+        isDetail: Bool = false,
         isCompleted: Bool = false) {
         self.title = title
-        self.timeStamp = timeStamp
+        self.contents = contents
+        self.isDetail = isDetail
         self.isCompleted = isCompleted
     }
 }
