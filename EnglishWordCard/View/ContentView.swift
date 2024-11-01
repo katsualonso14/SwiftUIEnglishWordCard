@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var showCreate = false
     @State private var cardItemEdit: CardItem?
     @Query private var items: [CardItem]
+    @StateObject var model = FlipCardModel()
     
     init() {
         setNavigationBarColor()
@@ -18,18 +19,21 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                // itemの中身をStackにそれぞれ入れていく
+                // item contents in Stack
                 ForEach(items) { item in
                     HStack {
                         VStack(alignment: .leading) {
+                            // Main Contens UI
                             
-                            Text(item.title)
-                                .font(.title)
-                                .bold()
+                            if(item.isDetail) {
+                                Text(item.contents)
+                                    .font(.subheadline)
+                            } else {
+                                Text(item.title)
+                                    .font(.title)
+                                    .bold()
+                            }
                             
-                            Text(item.contents)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
                         }
                         
                         Spacer()
@@ -47,9 +51,9 @@ struct ContentView: View {
                         }.buttonStyle(.plain)
                     }
                     
-                    .contentShape(Rectangle()) // 外側に適用
+                    .contentShape(Rectangle()) // outSide apply
                     .onTapGesture {
-                        print("Tapped")
+                        item.isDetail.toggle()
                     }
                     // Delete Action
                     .swipeActions{
