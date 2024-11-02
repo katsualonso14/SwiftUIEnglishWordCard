@@ -9,7 +9,6 @@ struct ContentView: View {
     @State private var showCreate = false
     @State private var cardItemEdit: CardItem?
     @Query private var items: [CardItem]
-    @StateObject var model = FlipCardModel()
     
     init() {
         setNavigationBarColor()
